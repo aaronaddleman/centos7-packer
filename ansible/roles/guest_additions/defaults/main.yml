@@ -1,0 +1,9 @@
+---
+
+guest_additions_isopath: /home/vagrant/VBoxGuestAdditions.iso
+
+guest_additions_deps:
+  - bzip2
+  - gcc
+  - kernel-devel-{{ ansible_kernel }}
+  - kernel-headers

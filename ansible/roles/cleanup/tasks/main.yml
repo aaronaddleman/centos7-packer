@@ -1,0 +1,19 @@
+---
+
+- name: stop udev breaking things
+  file: name=/etc/udev/rules.d/70-persistent-net.rules state=absent
+
+- name: untie enp0s3 from specific NIC
+  replace: dest=/etc/sysconfig/network-scripts/ifcfg-enp0s3
+           regexp='^{{ item }}.*' replace=no
+  with_items:
+    - UUID
+    - HWADDR
+
+# we fall back to a shellscript here because Ansible can't
+# finish it's run if the disk is full
+- name: upload zerofill disk script
+  copy: src=tmp/zerofill.sh dest=/tmp/zerofill.sh mode=0555
+
+- name: zero fill disk
+  command: /tmp/zerofill.sh

@@ -1,0 +1,41 @@
+{
+  "provisioners": [
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/bootstrap.yml",
+      "role_paths": ["ansible/roles/vagrant_ssh",
+                     "ansible/roles/guest_additions",
+                     "ansible/roles/cleanup"]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "CentOS-7.0-1406-x86_64-v20140721-{{.Provider}}.box"
+    }
+  ],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "iso_url": "http://mirror.ox.ac.uk/sites/mirror.centos.org/7.0.1406/isos/x86_64/CentOS-7.0-1406-x86_64-NetInstall.iso",
+      "iso_checksum": "df6dfdd25ebf443ca3375188d0b4b7f92f4153dc910b17bccc886bd54a7b7c86",
+      "iso_checksum_type": "sha256",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "headless": "false",
+      "boot_command": [
+        "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/bootstrap-ks.cfg<enter>"
+      ],
+      "disk_size": "10000",
+      "hard_drive_interface": "sata",
+      "guest_additions_sha256": "2a87971ae3c7e57e87713967a6f242acbdafcc09b635cba98e6dd3a7f5292d3b",
+      "guest_os_type": "RedHat_64",
+      "http_directory": "./http",
+      "shutdown_command": "sudo /sbin/halt -p",
+      "vboxmanage": [
+        [ "modifyvm", "{{.Name}}", "--memory", "768" ],
+        [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+      ]
+    }
+  ]
+}

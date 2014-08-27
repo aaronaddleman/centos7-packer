@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  sudo: yes
+  roles:
+    - vagrant_ssh
+    - guest_additions
+    - cleanup

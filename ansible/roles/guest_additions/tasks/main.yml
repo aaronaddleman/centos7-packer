@@ -1,0 +1,29 @@
+---
+
+- name: toolchain for guest additions
+  yum: name={{ item }} state=present
+  with_items: guest_additions_deps
+
+- name: mount iso
+  mount: src={{ guest_additions_isopath }}
+         name=/mnt fstype=iso9660 opts=loop state=mounted
+
+# ignore exit code (it comes from 'yes' having stdout closed)
+- name: run installer
+  shell: yes | /mnt/VBoxLinuxAdditions.run
+  ignore_errors: yes
+
+- name: unmount iso and remove fstab entry
+  mount: src={{ guest_additions_isopath }}
+         name=/mnt fstype=iso9660 opts=loop state={{ item }}
+  with_items:
+    - unmounted
+    - absent
+
+- name: lose the ISO
+  file: name=/home/vagrant/VBoxGuestAdditions.iso
+        state=absent
+
+- name: uninstall toolchain
+  yum: name={{ item }} state=absent
+  with_items: guest_additions_deps
