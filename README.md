@@ -6,6 +6,11 @@ built using kickstart and the ansible-local provisioner.
 
 Only supports Virtualbox provider for now.
 
+This takes about 15 minutes to build, so if you're short
+on time you can just grab it from:
+
+https://dl.dropboxusercontent.com/s/xrjd5xilnev851e/CentOS-7.0-1406-x86_64-v20140721-virtualbox.box
+
 ## config
 
 see 

@@ -26,14 +26,14 @@
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/bootstrap-ks.cfg<enter>"
       ],
-      "disk_size": "10000",
+      "disk_size": "5000",
       "hard_drive_interface": "sata",
       "guest_additions_sha256": "2a87971ae3c7e57e87713967a6f242acbdafcc09b635cba98e6dd3a7f5292d3b",
       "guest_os_type": "RedHat_64",
       "http_directory": "./http",
       "shutdown_command": "sudo /sbin/halt -p",
       "vboxmanage": [
-        [ "modifyvm", "{{.Name}}", "--memory", "768" ],
+        [ "modifyvm", "{{.Name}}", "--memory", "512" ],
         [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
       ]
     }
